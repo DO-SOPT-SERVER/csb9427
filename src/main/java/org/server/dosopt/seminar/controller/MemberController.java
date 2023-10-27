@@ -22,17 +22,17 @@ public class MemberController {
 
     @GetMapping("{id}")
     public ResponseEntity<MemberGetResponse> getMemberProfileV1(@PathVariable("id") Long memberId) {
-        return ResponseEntity.ok(memberService.getByIdV1(memberId));
+        return createResponse(memberService.getByIdV1(memberId));
     }
 
     @GetMapping(value = "{memberId}/v2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MemberGetResponse> getMemberProfileV2(@PathVariable Long memberId) {
-        return ResponseEntity.ok(memberService.getByIdV2(memberId));
+        return createResponse(memberService.getByIdV2(memberId));
     }
 
     @GetMapping
     public ResponseEntity<List<MemberGetResponse>> getMembersProfile() {
-        return ResponseEntity.ok(memberService.getMembers());
+        return createResponse(memberService.getMembers());
     }
 
     @PostMapping
@@ -50,5 +50,9 @@ public class MemberController {
     public ResponseEntity deleteMember(@PathVariable Long memberId) {
         memberService.deleteMember(memberId);
         return ResponseEntity.noContent().build();
+    }
+
+    private <T> ResponseEntity<T> createResponse(T body) {
+        return ResponseEntity.ok(body);
     }
 }
