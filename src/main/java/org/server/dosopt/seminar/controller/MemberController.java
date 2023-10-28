@@ -20,12 +20,12 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MemberGetResponse> getMemberProfileV1(@PathVariable("id") Long memberId) {
         return createResponse(memberService.getByIdV1(memberId));
     }
 
-    @GetMapping(value = "{memberId}/v2", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{memberId}/v2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MemberGetResponse> getMemberProfileV2(@PathVariable Long memberId) {
         return createResponse(memberService.getByIdV2(memberId));
     }
