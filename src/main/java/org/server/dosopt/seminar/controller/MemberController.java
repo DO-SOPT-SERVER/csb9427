@@ -1,11 +1,10 @@
 package org.server.dosopt.seminar.controller;
 
-import org.server.dosopt.seminar.dto.request.MemberCreateRequest;
-import org.server.dosopt.seminar.dto.request.MemberProfileUpdateRequest;
-import org.server.dosopt.seminar.dto.response.MemberGetResponse;
+import org.server.dosopt.seminar.dto.request.member.MemberCreateRequest;
+import org.server.dosopt.seminar.dto.request.member.MemberProfileUpdateRequest;
+import org.server.dosopt.seminar.dto.response.member.MemberGetResponse;
 import org.server.dosopt.seminar.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +21,12 @@ public class MemberController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MemberGetResponse> getMemberProfileV1(@PathVariable("id") Long memberId) {
-        return createResponse(memberService.getByIdV1(memberId));
+        return createResponse(memberService.getMemberByIdV1(memberId));
     }
 
     @GetMapping(value = "/{memberId}/v2", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MemberGetResponse> getMemberProfileV2(@PathVariable Long memberId) {
-        return createResponse(memberService.getByIdV2(memberId));
+        return createResponse(memberService.getMemberByIdV2(memberId));
     }
 
     @GetMapping
@@ -39,6 +38,8 @@ public class MemberController {
     public ResponseEntity<Void> createMember(@RequestBody MemberCreateRequest request) {
         URI location = URI.create("api/member/" + memberService.create(request));
         return ResponseEntity.created(location).build();
+        //return ResponseEntity.status(HttpStatus.CREATED)
+        //        .body()
     }
 
     @PatchMapping("/{memberId}")
